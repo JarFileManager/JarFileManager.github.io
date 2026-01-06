@@ -1,73 +1,127 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
 
-        .app-heading {
-            text-align: center;
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 30px;
-        }
+.app-heading {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 30px;
+}
 
-        /* Form container */
-        form {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            width: 500px; /* Adjusted width for larger form */
-            margin: 0 auto;
-        }
+/* Form container */
+form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
 
-        /* Labels for inputs */
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
 
-        /* Text inputs (infohash and magnet link) */
-        input[type="text"], input[type="submit"] {
-            width: calc(100% - 20px); /* Adjusted width calculation */
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
+/* Inputs */
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
 
-        /* Submit button */
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            width: 100%; /* Make button full width */
-            padding: 15px 0; /* Increase vertical padding */
-        }
+input[readonly] {
+    background-color: #f9f9f9;
+}
 
-        /* Copy button */
-        .copy-button {
-            background-color: #008CBA;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-left: 10px;
-        }
+/* Focus state */
+input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
 
-        .copy-button:hover {
-            background-color: #005580;
-        }
+/* Button base */
+button {
+    font-size: 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    padding: 12px 16px;
+}
 
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            form {
-                width: 90%;
-            }
-        }
+/* Convert button (primary) */
+#submit-btn {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    margin-top: 15px;
+}
+
+#submit-btn:hover {
+    background-color: #43a047;
+}
+
+/* Button row (Copy + Open) */
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* Copy button */
+.copy-button {
+    background-color: #008CBA;
+    color: white;
+}
+
+.copy-button:hover {
+    background-color: #005580;
+}
+
+/* Open button */
+.open-button {
+    background-color: #ff9800;
+    color: white;
+}
+
+.open-button:hover {
+    background-color: #e68900;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    .button-row {
+        flex-direction: column;
+    }
+
+    .copy-button,
+    .open-button {
+        width: 100%;
+    }
+}

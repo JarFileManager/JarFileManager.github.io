@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>InfoHash to Magnet Converter</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -11,27 +11,35 @@
 
 <form id="info2magnet">
 
-    <label for="info-field">Enter InfoHash or Torrent URL</label><br>
-    <input id="info-field" type="text"
-           placeholder="Paste infohash or full torrent URL"><br><br>
+    <label for="info-field">Enter InfoHash or Torrent URL</label>
+    <input
+        id="info-field"
+        type="text"
+        placeholder="Paste infohash or full torrent URL"
+    >
 
-    <label for="magnet-field">Magnet Link</label><br>
+    <label for="magnet-field">Magnet Link</label>
     <input id="magnet-field" type="text" readonly>
-    <button type="button" class="copy-button" onclick="copyMagnetLink()">Copy</button>
 
-    <br><br>
+    <div class="button-row">
+        <button type="button" class="copy-button" onclick="copyMagnetLink()">Copy</button>
+        <button type="button" class="open-button" onclick="openMagnetLink()">Open</button>
+    </div>
+
     <button type="submit" id="submit-btn">Convert</button>
 
 </form>
 
 <script>
+    let currentMagnetLink = "";
+
     document.getElementById("info2magnet").addEventListener("submit", function (e) {
         e.preventDefault();
 
         const input = document.getElementById("info-field").value.trim();
 
         if (!input) {
-            alert("Please enter an infohash or URL");
+            alert("Please enter an infohash or torrent URL");
             return;
         }
 
@@ -42,23 +50,50 @@
             return;
         }
 
-        const magnetLink = "magnet:?xt=urn:btih:" + infoHash;
-        document.getElementById("magnet-field").value = magnetLink;
+        currentMagnetLink = "magnet:?xt=urn:btih:" + infoHash;
+        document.getElementById("magnet-field").value = currentMagnetLink;
     });
 
     function extractInfoHash(input) {
-        // Match 40-character hexadecimal string
+        try {
+            const url = new URL(input);
+            const pathMatch = url.pathname.match(/[a-fA-F0-9]{40}/);
+            if (pathMatch) return pathMatch[0].toLowerCase();
+        } catch (e) {}
+
         const match = input.match(/[a-fA-F0-9]{40}/);
-        return match ? match[0] : null;
+        return match ? match[0].toLowerCase() : null;
     }
 
     function copyMagnetLink() {
-        const magnetField = document.getElementById("magnet-field");
-        magnetField.select();
-        navigator.clipboard.writeText(magnetField.value);
-        document.querySelector('.copy-button').textContent = "Copied!";
+        if (!currentMagnetLink) {
+            alert("Generate magnet link first");
+            return;
+        }
+
+        navigator.clipboard.writeText(currentMagnetLink);
+
+        const btn = document.querySelector(".copy-button");
+        const originalText = btn.textContent;
+
+        btn.textContent = "Copied!";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }, 2000);
+    }
+
+    function openMagnetLink() {
+        if (!currentMagnetLink) {
+            alert("Generate magnet link first");
+            return;
+        }
+        window.open(currentMagnetLink, "_blank");
     }
 </script>
+
 
 </body>
 </html>
