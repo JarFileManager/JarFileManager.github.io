@@ -1,10 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InfoHash to Magnet Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
 
-<h1>My First Heading</h1>
+<h1 class="app-heading">Infohash ➜ Magnet Converter</h1>
 
-<p>My first paragraph.</p>
+<form id="info2magnet">
+
+    <label for="info-field">Enter InfoHash or Torrent URL</label><br>
+    <input id="info-field" type="text"
+           placeholder="Paste infohash or full torrent URL"><br><br>
+
+    <label for="magnet-field">Magnet Link</label><br>
+    <input id="magnet-field" type="text" readonly>
+    <button type="button" class="copy-button" onclick="copyMagnetLink()">Copy</button>
+
+    <br><br>
+    <button type="submit" id="submit-btn">Convert</button>
+
+</form>
+
+<script>
+    document.getElementById("info2magnet").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const input = document.getElementById("info-field").value.trim();
+
+        if (!input) {
+            alert("Please enter an infohash or URL");
+            return;
+        }
+
+        const infoHash = extractInfoHash(input);
+
+        if (!infoHash) {
+            alert("No valid infohash found");
+            return;
+        }
+
+        const magnetLink = "magnet:?xt=urn:btih:" + infoHash;
+        document.getElementById("magnet-field").value = magnetLink;
+    });
+
+    function extractInfoHash(input) {
+        // Match 40-character hexadecimal string
+        const match = input.match(/[a-fA-F0-9]{40}/);
+        return match ? match[0] : null;
+    }
+
+    function copyMagnetLink() {
+        const magnetField = document.getElementById("magnet-field");
+        magnetField.select();
+        navigator.clipboard.writeText(magnetField.value);
+        document.querySelector('.copy-button').textContent = "Copied!";
+    }
+</script>
 
 </body>
 </html>
